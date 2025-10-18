@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Flipbook</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    overflow: hidden; /* Mencegah overflow di luar layar */
+  }
+  #flipbook {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Mencegah overflow saat animasi */
+  }
+  .page {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: transform 0.6s ease; /* Animasi flip */
+    backface-visibility: hidden; /* Menyembunyikan halaman belakang */
+  }
+  .page img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .navigation {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  .flip {
+    transform: rotateY(180deg); /* Efek flip */
+  }
+</style>
+</head>
+<body>
+<div id="flipbook">
+  <div class="page" id="page1"><img src="images/page1.jpg" alt="Page 1"></div>
+  <div class="page" id="page2"><img src="images/page2.jpg" alt="Page 2"></div>
+  <div class="page" id="page3"><img src="images/page3.jpg" alt="Page 3"></div>
+  <div class="page" id="page4"><img src="images/page4.jpg" alt="Page 4"></div>
+  <div class="page" id="page5"><img src="images/page5.jpg" alt="Page 5"></div>
+  <div class="page" id="page6"><img src="images/page6.jpg" alt="Page 6"></div>
+  <div class="page" id="page7"><img src="images/page7.jpg" alt="Page 7"></div>
+  <div class="navigation">
+    <button id="prev">Previous</button>
+    <button id="next">Next</button>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(function() {
+    let currentPage = 0;
+    const pages = $('.page');
+    const totalPages = pages.length;
+
+    $('#next').click(function() {
+      if (currentPage < totalPages - 1) {
+        currentPage++;
+        pages.hide();
+        pages.eq(currentPage).show();
+        pages.eq(currentPage).addClass('flip');
+        setTimeout(function() {
+          pages.eq(currentPage).removeClass('flip');
+        }, 600);
+      }
+    });
+
+    $('#prev').click(function() {
+      if (currentPage > 0) {
+        currentPage--;
+        pages.hide();
+        pages.eq(currentPage).show();
+        pages.eq(currentPage).addClass('flip');
+        setTimeout(function() {
+          pages.eq(currentPage).removeClass('flip');
+        }, 600);
+      }
+    });
+
+    // Tampilkan halaman pertama pada awalnya
+    pages.eq(currentPage).show();
+  });
+</script>
+</body>
+</html>
